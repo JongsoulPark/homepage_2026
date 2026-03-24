@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/uat/uia/egovLoginUsr.do")
+                .loginPage("/portal/login/view.do")
                 .loginProcessingUrl("/uat/uia/actionLogin.do")
                 .usernameParameter("id")
                 .passwordParameter("password")

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:p="http://www.springframework.org/schema/p"
         xmlns:context="http://www.springframework.org/schema/context"
@@ -7,14 +7,14 @@
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-    <!-- ?¨í‚¤ì§€ ??Controller, Service, Repository ?´ëž˜?¤ì˜ auto detectë¥??„í•œ mvc ?¤ì • -->
+    <!-- Scan controllers only in the web context. -->
     <context:component-scan base-package="egovframework">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
 
-    <!-- ?œë¸”ë¦¿ì»¨?¤ì´?ˆìƒ??exception???€???¤ë¥˜ ?˜ì´ì§€ë¥??°ê²°?˜ëŠ” mvc ?¤ì •-->
+    <!-- Map common exceptions to JSP error pages. -->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="cmm/error/egovError"/>
         <property name="exceptionMappings">
@@ -27,11 +27,11 @@
         </property>
     </bean>
 
-    <!-- ?”ë©´ì²˜ë¦¬??JSP ?Œì¼ëª…ì˜  prefix, suffix ì²˜ë¦¬???€??mvc ?¤ì •  -->
+    <!-- Resolve logical view names to JSP files. -->
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
-	    p:viewClass="org.springframework.web.servlet.view.JstlView"
-	    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
-	    
+          p:viewClass="org.springframework.web.servlet.view.JstlView"
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="webBindingInitializer">
             <bean class="egovframework.com.cmm.web.EgovBindingInitializer"/>
@@ -46,7 +46,7 @@
         <property name="validator" ref="beanValidator"/>
     </bean>
 
-    <!-- ë¡œê·¸??ì²´í¬ê°€ ?„ìš”??URLê³?ë¡œê·¸???¬ë?ë¥?ì²´í¬?´ì???-->
+    <!-- Keep the legacy login/session interceptor for selected URLs. -->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/cop/com/*.do"/>
@@ -54,7 +54,7 @@
             <mvc:mapping path="/uat/uia/*.do"/>
             <mvc:exclude-mapping path="/uat/uia/actionLogin.do"/>
             <mvc:exclude-mapping path="/uat/uia/egovLoginUsr.do"/>
-		    <bean class="egovframework.com.cmm.interceptor.AuthenticInterceptor" />
+            <bean class="egovframework.com.cmm.interceptor.AuthenticInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
 

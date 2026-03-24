@@ -11,6 +11,8 @@ import org.egovframe.rte.fdl.property.EgovPropertyService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -63,6 +65,18 @@ public class EgovLoginController {
 	 */
 	@RequestMapping(value = "/uat/uia/egovLoginUsr.do")
 	public String loginUsrView(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		String errorCode = request.getParameter("error");
+		if (errorCode != null && !errorCode.isEmpty()) {
+			model.addAttribute("message", egovMessageSource.getMessage(errorCode));
+		}
+
+		AuthenticationException authenticationException =
+			(AuthenticationException) request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+		if (authenticationException != null && !model.containsAttribute("message")) {
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+			request.getSession().removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+		}
+
 		return "cmm/uat/uia/EgovLoginUsr";
 	}
 

@@ -18,6 +18,7 @@
 
 	<properties>
 		<spring.maven.artifact.version>5.3.27</spring.maven.artifact.version>
+        <spring.security.version>5.8.8</spring.security.version>
         <org.egovframe.rte.version>4.2.0</org.egovframe.rte.version>
         <lombok.version>1.18.36</lombok.version>
         <hibernate.validator.version>6.2.5.Final</hibernate.validator.version>
@@ -78,6 +79,22 @@
 			<groupId>org.egovframe.rte</groupId>
 			<artifactId>org.egovframe.rte.fdl.crypto</artifactId>
 			<version>${org.egovframe.rte.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
 
 		<dependency>

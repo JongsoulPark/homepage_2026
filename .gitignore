@@ -1,0 +1,85 @@
+# =========================
+# Build
+# =========================
+target/
+out/
+build/
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# =========================
+# Eclipse / STS
+# =========================
+.classpath
+.project
+.settings/
+.springBeans
+.apt_generated/
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+*.out
+
+# =========================
+# Temp files
+# =========================
+*.tmp
+*.swp
+*.swo
+*~
+
+# =========================
+# Java
+# =========================
+*.class
+hs_err_pid*
+replay_pid*
+
+# =========================
+# Maven Wrapper (선택)
+# wrapper를 팀에서 같이 쓰면 이건 지우지 말 것
+# =========================
+# .mvn/
+# mvnw
+# mvnw.cmd
+
+# =========================
+# Application secrets / local config
+# 실제 파일명이 있으면 거기에 맞게 추가
+# =========================
+#application-local.properties
+#application-local.yml
+#application-dev-local.yml
+#*.env
+
+
+
+
+# =========================
+# Upload / generated files
+# 프로젝트에서 업로드 폴더를 별도로 쓰면 추가
+# 예:
+# uploads/
+# temp/
+# ========================= 여기까지 =========================

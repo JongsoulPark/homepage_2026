@@ -17,6 +17,6 @@ public class EgovAuthenticationFailureHandler implements AuthenticationFailureHa
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
         String encodedMessage = URLEncoder.encode("fail.common.login", StandardCharsets.UTF_8.name());
-        response.sendRedirect(request.getContextPath() + "/uat/uia/egovLoginUsr.do?error=" + encodedMessage);
+        response.sendRedirect(request.getContextPath() + "/portal/login/view.do?error=" + encodedMessage);
     }
 }

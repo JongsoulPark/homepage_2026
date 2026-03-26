@@ -15,4 +15,6 @@ public class LoginController {
     public String loginView() {
         return "/portal/login/view";
     }
+
+    /*@GetMapping("/portal/login/")*/
 }

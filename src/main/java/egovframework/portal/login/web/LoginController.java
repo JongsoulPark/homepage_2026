@@ -16,5 +16,8 @@ public class LoginController {
         return "/portal/login/view";
     }
 
-    /*@GetMapping("/portal/login/")*/
+    @GetMapping("/portal/login/action.do")
+    public String loginAction() {
+        return "/portal/main/main";
+    }
 }

@@ -14,7 +14,7 @@
     </filter>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>*</url-pattern>
     </filter-mapping>
     
     <!--
@@ -28,7 +28,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>springMultipartFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>*</url-pattern>
 	</filter-mapping>
     
     <!--
@@ -42,7 +42,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>HTMLTagFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>*</url-pattern>
 	</filter-mapping>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -66,10 +66,10 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
-	<welcome-file-list>
+
+	<!--<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	<login-config>
@@ -78,9 +78,9 @@
 	
 	<session-config>
         <session-timeout>600</session-timeout>
-    </session-config>
+    </session-config>-->
     
-	<error-page>
+	<!--<error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/common/error.jsp</location>
     </error-page>
@@ -91,6 +91,6 @@
     <error-page>
         <error-code>500</error-code>
         <location>/common/error.jsp</location>
-    </error-page>
+    </error-page>-->
     
 </web-app>

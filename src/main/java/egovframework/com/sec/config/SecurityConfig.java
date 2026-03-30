@@ -1,15 +1,14 @@
 package egovframework.com.sec.config;
 
-import egovframework.com.sec.auth.EgovAuthenticationProvider;
-import egovframework.com.sec.handler.EgovAuthenticationFailureHandler;
-import egovframework.com.sec.handler.EgovAuthenticationSuccessHandler;
+import egovframework.com.sec.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -17,49 +16,31 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final EgovAuthenticationProvider authenticationProvider;
-    private final EgovAuthenticationSuccessHandler successHandler;
-    private final EgovAuthenticationFailureHandler failureHandler;
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(EgovAuthenticationProvider authenticationProvider,
-            EgovAuthenticationSuccessHandler successHandler,
-            EgovAuthenticationFailureHandler failureHandler) {
+    public SecurityConfig(
+            AuthenticationProvider authenticationProvider,
+            JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.authenticationProvider = authenticationProvider;
-        this.successHandler = successHandler;
-        this.failureHandler = failureHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
-            .authenticationProvider(authenticationProvider)
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(publicMatchers()).permitAll()
                 .anyRequest().authenticated()
             )
-            .formLogin(form -> form
-                .loginPage("/portal/login/view.do")
-                .loginProcessingUrl("/uat/uia/actionLogin.do")
-                .usernameParameter("id")
-                .passwordParameter("password")
-                .successHandler(successHandler)
-                .failureHandler(failureHandler)
-                .permitAll()
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            .logout(logout -> logout
-                .logoutRequestMatcher(new AntPathRequestMatcher("/uat/uia/actionLogout.do"))
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/cmm/main/mainPage.do")
-            );
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return  new BCryptPasswordEncoder();
     }
 
     private RequestMatcher[] publicMatchers() {
@@ -70,10 +51,12 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/css/**"),
             new AntPathRequestMatcher("/js/**"),
             new AntPathRequestMatcher("/images/**"),
-            new AntPathRequestMatcher("/uat/uia/egovLoginUsr.do"),
+/*            new AntPathRequestMatcher("/uat/uia/egovLoginUsr.do"),
             new AntPathRequestMatcher("/uat/uia/actionLogin.do"),
             new AntPathRequestMatcher("/EgovPageLink.do"),
-            new AntPathRequestMatcher("/cmm/main/mainPage.do")
+            new AntPathRequestMatcher("/cmm/main/mainPage.do"),*/
+            new AntPathRequestMatcher("/portal/login/view"),
+            new AntPathRequestMatcher("/api/v1/auth/**"),
         };
     }
 }

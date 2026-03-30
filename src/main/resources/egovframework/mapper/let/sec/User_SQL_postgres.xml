@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userDAO">
+
+    <resultMap id="userResult" type="egovframework.com.sec.user.User">
+        <result property="userId"   column="EMPLYR_ID"/>
+        <result property="name"     column="USER_NM"/>
+        <result property="email"    column="EMAIL_ADRES"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="role"     column="ROLE"/>
+    </resultMap>
+
+    <!--
+        LETTNEMPLYRSCRTYESTBS.AUTHOR_CODE 값이 Role enum(USER, ADMIN)과 일치해야 합니다.
+        실제 AUTHOR_CODE 값에 따라 CASE 문을 수정하세요.
+    -->
+    <select id="findByUserId" parameterType="String" resultMap="userResult">
+        SELECT E.EMPLYR_ID
+             , E.USER_NM
+             , E.EMAIL_ADRES
+             , E.PASSWORD
+             , CASE WHEN A.AUTHOR_CODE = 'ROLE_ADMIN' THEN 'ADMIN'
+                    ELSE 'USER'
+               END AS ROLE
+          FROM COMTNEMPLYRINFO E
+          LEFT JOIN COMTNEMPLYRSCRTYESTBS S ON E.EMPLYR_ID = S.SCRTY_DTRMN_TRGET_ID
+          LEFT JOIN COMTNAUTHORINFO A ON S.AUTHOR_CODE = A.AUTHOR_CODE
+         WHERE E.EMPLYR_ID = #{userId}
+           AND E.EMPLYR_STTUS_CODE = 'P'
+    </select>
+
+</mapper>

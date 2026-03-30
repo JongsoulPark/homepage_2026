@@ -14,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-@Component
+/*@Component
 public class EgovAuthenticationProvider implements AuthenticationProvider {
 
     @Resource(name = "loginService")
@@ -59,4 +59,4 @@ public class EgovAuthenticationProvider implements AuthenticationProvider {
 
         return authorities;
     }
-}
+}*/

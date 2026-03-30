@@ -11,7 +11,7 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @GetMapping("/portal/login/view.do")
+    @GetMapping("/portal/login/view")
     public String loginView() {
         return "/portal/login/view";
     }

@@ -14,8 +14,12 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
 
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
+
     <!-- Map common exceptions to JSP error pages. -->
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="cmm/error/egovError"/>
         <property name="exceptionMappings">
             <props>
@@ -25,7 +29,7 @@
                 <prop key="org.springframework.security.AccessDeniedException">cmm/error/accessDenied</prop>
             </props>
         </property>
-    </bean>
+    </bean>-->
 
     <!-- Resolve logical view names to JSP files. -->
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
@@ -33,8 +37,13 @@
           p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="webBindingInitializer">
+        <!--<property name="webBindingInitializer">
             <bean class="egovframework.com.cmm.web.EgovBindingInitializer"/>
+        </property>-->
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            </list>
         </property>
     </bean>
 
@@ -47,7 +56,7 @@
     </bean>
 
     <!-- Keep the legacy login/session interceptor for selected URLs. -->
-    <mvc:interceptors>
+    <!--<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/cop/com/*.do"/>
             <mvc:mapping path="/cop/bbs/*Master*.do"/>
@@ -56,7 +65,7 @@
             <mvc:exclude-mapping path="/uat/uia/egovLoginUsr.do"/>
             <bean class="egovframework.com.cmm.interceptor.AuthenticInterceptor" />
         </mvc:interceptor>
-    </mvc:interceptors>
+    </mvc:interceptors>-->
 
     <mvc:annotation-driven validator="beanValidator"/>
 

@@ -12,7 +12,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Data
 @Builder
@@ -20,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class User implements UserDetails {
 
-    private String id;
+    private String userId;
     private String name;
     private String email;
     private String password;
@@ -33,27 +32,34 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return "";
+    public String getPassword() {
+        return password;
     }
 
     @Override
+    public String getUsername() {
+        return userId;
+    }
+
+
+
+    @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

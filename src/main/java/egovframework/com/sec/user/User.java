@@ -19,10 +19,16 @@ import java.util.Collections;
 @AllArgsConstructor
 public class User implements UserDetails {
 
+    /* 업무사용자 ID (emplyr_id) */
     private String userId;
+    /* 사용자명 (user_nm) */
     private String name;
+    /* 이메일주소 (email_adres) */
     private String email;
+    /* 비밀번호 (password) */
     private String password;
+    /* 고유 ID */
+    private String esntlId;
     @Enumerated(EnumType.STRING)
     private Role role;
 

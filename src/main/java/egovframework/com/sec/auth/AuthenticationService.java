@@ -5,6 +5,9 @@ import egovframework.com.sec.user.Role;
 import egovframework.com.sec.user.User;
 import egovframework.com.sec.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.egovframe.rte.fdl.cmmn.exception.FdlException;
+import org.egovframe.rte.fdl.idgnr.EgovIdGnrService;
+import org.egovframe.rte.fdl.idgnr.impl.AbstractDataBlockIdGnrService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,18 +24,31 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
+    private final AbstractDataBlockIdGnrService egovUsrCnfrmIdGnrService;
 
     public AuthenticationResponse register(RegisterRequest request) {
+
+        String esntlId = null;
+
+        try {
+            esntlId = egovUsrCnfrmIdGnrService.getNextStringId();
+        } catch (FdlException e) {
+            throw new RuntimeException("등록과정에서 오류가 발생했습니다.");
+        }
+
         User user = User.builder()
                         .userId(request.getUserId())
                         .name(request.getName())
                         .email(request.getEmail())
+                        .esntlId(esntlId)
                         .password(passwordEncoder.encode(request.getPassword()))
                         .role(Role.USER)
                         .build();
+
         repository.save(user);
+
         String jwtToken = jwtService.generateToken(user);
+
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 

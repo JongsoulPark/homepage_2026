@@ -30,4 +30,8 @@
            AND E.EMPLYR_STTUS_CODE = 'P'
     </select>
 
+    <insert id="save">
+        INSERT INTO
+    </insert>
+
 </mapper>
